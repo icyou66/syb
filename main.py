@@ -71,7 +71,7 @@ class Sdk:
         )
         result = self.session.post(self.url1, data=data, verify=False).content.decode('utf-8')
         result = json.loads(result)
-        self.progress = result['date'][0]['list'][0]['bili']
+        self.progress = result['data'][0]['list'][0]['bili']
         if int(self.progress) < 100:
             print("\n——————————————————")
             print("\n检测到存在任务点未完成，即将重新执行..\n")
@@ -109,7 +109,7 @@ class Sdk:
                     result = self.session.post(self.url1, data=data, verify=False).content.decode('utf-8')
                     result = json.loads(result)
                 except:
-                    print(f"{item['title']}】上报视频时长点位：{play_time} 时异常，跳过")
+                    print(f"【{item['title']}】上报视频时长点位：{play_time} 时异常，跳过")
                     continue
 
                 if config.face_api:
@@ -254,7 +254,7 @@ class Sdk:
         )
         result = self.session.post(self.url1, data=data, verify=False).content.decode('utf-8')
         result = json.loads(result)
-        item = result['date'][0]['list'][0]
+        item = result['data'][0]['list'][0]
         self.kcid = item['kc_id']
         print(f"当前进入课程：{item['title']}")
 
@@ -336,7 +336,6 @@ class VideoTran:
 
 
 if __name__ == "__main__":
-    # 初始化颜色代码
     try:
         user = input("请输入账号：")
         while not user:
@@ -352,8 +351,9 @@ if __name__ == "__main__":
             VideoTran()
             print(f"\n图片生成完成，请打开同目录下image文件夹，检查图片。")
             input("确认无误后按回车键开始执行刷课..")
-        else:
-            Sdk(user, pwd)
+
+        Sdk(user, pwd)
+
     except:
         print(f"{traceback.format_exc()}")
         print("问题异常，请将上述错误异常截图提交issue！")
